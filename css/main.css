@@ -2,4 +2,6 @@ body
 {
   background-color: black;
   color: white;
+  font-family: 'Arial', sans-serif;
+  line-height: 20px;
 }
