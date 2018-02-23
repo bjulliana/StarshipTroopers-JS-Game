@@ -10,8 +10,9 @@
   <title>Starship Troopers Game</Title>
 </head>
 <body>
-  <main>
+  <main id="mainContainer">
     <h1 class="hidden">Welcome</h1>
+    <img id="gameLogo" src='#'>
     <section>
       <h1>Game Stuff</h1>
       <h2>Awesome JS Starship Troopers Game</h2>
@@ -19,6 +20,13 @@
           This is the Game!
         </p>
     </section>
+
+    <canvas id="canvas" style="background-image: url('images/canvas.png')">
+      <div class="unsupported">
+        Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
+      </div>
+    </canvas>
+
     <footer>
       <p>footer info</p>
     </footer>

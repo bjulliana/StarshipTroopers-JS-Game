@@ -1,7 +1,18 @@
 body
 {
-  background-color: black;
-  color: white;
+  color: #3c3c3c;
   font-family: 'Courier New', 'Arial', sans-serif;
   line-height: 25px;
+}
+
+#mainContainer {
+  width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+canvas {
+  width: 515px;
+  height: 500px;
+  background-image: url('images/canvas.png');
 }
