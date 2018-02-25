@@ -7,6 +7,9 @@
 	canvas.width = 512;
 	canvas.height = 500;
 
+	var width = canvas.width;
+	var height = canvas.height;
+
 	// Background image
 	var bgReady = false;
 	var bgImage = new Image();
@@ -31,6 +34,14 @@
 	};
 	bugImage.src = "images/bug.png";
 
+	// Bullet image
+	var bulletReady = false;
+	var bulletImage = new Image();
+	bulletImage.onload = function () {
+		bulletReady = true;
+	};
+	bulletImage.src = "images/bullet.png";
+
   // Game Elements
   var hero = {
   	speed: 256, // movement in pixels per second
@@ -43,6 +54,7 @@
   	y: 0
   };
   var bugsCaught = 0;
+	var bullet = {};
 
   // Handle keyboard controls
   var keysDown = {};
@@ -67,25 +79,34 @@ var reset = function () {
 
 // Update game objects
 var update = function (modifier) {
-	if (38 in keysDown) { // Player holding up
+	if (38 in keysDown) { // Arrow up
 		hero.y -= hero.speed * modifier;
 	}
-	if (40 in keysDown) { // Player holding down
+	if (40 in keysDown) { // Arrow down
 		hero.y += hero.speed * modifier;
 	}
-	if (37 in keysDown) { // Player holding left
+	if (37 in keysDown) { // Arrow left
 		hero.x -= hero.speed * modifier;
 	}
-	if (39 in keysDown) { // Player holding right
+	if (39 in keysDown) { // Arrow right
 		hero.x += hero.speed * modifier;
 	}
 
-	// Are they touching?
+	//Spacebar bullet shot
+	if (32 in keysDown) { // Spacebar
+		bullet.x = hero.x;
+		bullet.y = hero.y;
+	}
+
+	//move bullet
+	bullet.y -= hero.speed * modifier;
+
+	// Was it hit?
 	if (
-		hero.x <= (bug.x + 50)
-		&& bug.x <= (hero.x + 50)
-		&& hero.y <= (bug.y + 50)
-		&& bug.y <= (hero.y + 50)
+		bullet.x <= (bug.x + 40)
+		&& bug.x <= (bullet.x + 40)
+		&& bullet.y <= (bug.y + 40)
+		&& bug.y <= (bullet.y + 40)
 	) {
 		++bugsCaught;
 		reset();
@@ -106,12 +127,16 @@ var render = function () {
 		ctx.drawImage(bugImage, bug.x, bug.y);
 	}
 
+	if (bulletReady) {
+		ctx.drawImage(bulletImage, bullet.x, bullet.y);
+	}
+
 	// Score
-	ctx.fillStyle = "rgb(0, 0, 0)";
-	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Bugs Killed: " + bugsCaught, 32, 32);
+	ctx.fillStyle = "rgb(0, 0, 0)";
+	ctx.font = "24px Helvetica";
+	ctx.fillText("Death count: " + bugsCaught, 32, 80);
 };
 
 // The main game loop

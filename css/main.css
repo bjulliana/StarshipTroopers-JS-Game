@@ -14,5 +14,10 @@ body
 canvas {
   width: 515px;
   height: 500px;
-  background-image: url('images/canvas.png');
+  /* background-image: url('images/canvas.png'); */
+}
+
+#demo {
+  width: 512px;
+  height: 512px;
 }
