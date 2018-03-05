@@ -7,6 +7,6 @@ Contributors: Julliana Bauer and John Robertson.
 
 
 TODO:
-  - Multiple Bullets
-  - Shoot while walking
-  - Bullet collision
+  - Resolve move Problem with new level;
+  - Define Final Graphics
+  - Sprite Movement
