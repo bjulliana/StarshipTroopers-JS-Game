@@ -1,3 +1,5 @@
+/* CSS Stylesheed for Starship Troppers Game */
+
 body
 {
   color: #3c3c3c;
@@ -6,18 +8,21 @@ body
 }
 
 #mainContainer {
-  width: 960px;
+  width: 1080px;
   margin: 0 auto;
   text-align: center;
 }
 
-canvas {
-  width: 515px;
-  height: 500px;
-  /* background-image: url('images/canvas.png'); */
+#container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
 }
 
-#demo {
-  width: 512px;
-  height: 512px;
+canvas {
+  border-color: #2c2c2c;
+  border-style: solid;
+  border-width: 1px;
 }

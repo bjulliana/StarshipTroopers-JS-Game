@@ -122,6 +122,7 @@ function Hero(map, x, y) {
 	};
 	bulletImage.src = "images/bullet.png";
 
+
 //Game elements
 Hero.SPEED = 256; // pixels per second
 var bullet = {};
@@ -198,12 +199,20 @@ Game.update = function (delta) {
     // handle hero movement with arrow keys
     var dirx = 0;
     var diry = 0;
+    var srcX = 64;
+    var srcY = 128;
     if (Keyboard.isDown(Keyboard.LEFT)) {
+        function moveLeft {
         dirx = -1;
+        srcX = 64;
+        srcY = 256;
+        console.log('Left Pressed');
     }
-
+}
     else if (Keyboard.isDown(Keyboard.RIGHT)) {
         dirx = 1;
+        srcX = 64;
+        srcY = 64;
     }
 
     else if (Keyboard.isDown(Keyboard.UP)) {
@@ -264,10 +273,13 @@ Game.render = function () {
 
     // draw main character
     this.ctx.drawImage(
-        this.hero.image,64,128,64,64,
+        this.hero.image,srcX,srcY,64,64,
         this.hero.screenX - this.hero.width / 2,
         this.hero.screenY - this.hero.height / 2,64,64);
-
+        if (Keyboard.RIGHT == false || Keyboard.LEFT == false) {
+          srcX = 64;
+          srcY = 128;
+        }
         if (bulletReady) {
         this.ctx.drawImage(bulletImage, bullet.x, bullet.y);
         }

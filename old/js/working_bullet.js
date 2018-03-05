@@ -1,5 +1,6 @@
 console.log('Loaded');
-
+var direction = "DOWN"
+//Define Canvas with Tiles
 var map = {
     cols: 12,
     rows: 12,
@@ -60,6 +61,9 @@ var map = {
     }
 };
 
+var srcX = 64;
+var srcY = 128;
+
 function Camera(map, width, height) {
     this.x = 0;
     this.y = 0;
@@ -76,19 +80,19 @@ Camera.prototype.follow = function (sprite) {
 };
 
 Camera.prototype.update = function () {
-    // assume followed sprite should be placed at the center of the screen
+    // assume hero should be placed at the center of the screen
     // whenever possible
     this.following.screenX = this.width / 2;
     this.following.screenY = this.height / 2;
 
-    // make the camera follow the sprite
+    // make the camera follow the hero
     this.x = this.following.x - this.width / 2;
     this.y = this.following.y - this.height / 2;
     // clamp values
     this.x = Math.max(0, Math.min(this.x, this.maxX));
     this.y = Math.max(0, Math.min(this.y, this.maxY));
 
-    // in map corners, the sprite cannot be placed in the center of the screen
+    // in map corners, the hero cannot be placed in the center of the screen
     // and we have to change its screen coordinates
 
     // left and right sides
@@ -108,9 +112,8 @@ function Hero(map, x, y) {
     this.map = map;
     this.x = x;
     this.y = y;
-    this.width = map.tsize;
-    this.height = map.tsize;
-
+    this.width = 64;
+    this.height = 64;
     this.image = Loader.getImage('hero');
 }
 
@@ -121,7 +124,6 @@ function Hero(map, x, y) {
 		bulletReady = true;
 	};
 	bulletImage.src = "images/bullet.png";
-
 
 //Game elements
 Hero.SPEED = 256; // pixels per second
@@ -144,7 +146,7 @@ Hero.prototype.move = function (delta, dirx, diry) {
 
 Hero.prototype._collide = function (dirx, diry) {
     var row, col;
-    // -1 in right and bottom is because image ranges from 0..63
+    // -1 in right and bottom is because image ranges from 0.63
     // and not up to 64
     var left = this.x - this.width / 2;
     var right = this.x + this.width / 2 - 1;
@@ -190,7 +192,7 @@ Game.init = function () {
         [Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN, Keyboard.SPACE]);
     this.tileAtlas = Loader.getImage('tiles');
 
-    this.hero = new Hero(map, 160, 160);
+    this.hero = new Hero(map, 256, 256);
     this.camera = new Camera(map, 512, 512);
     this.camera.follow(this.hero);
 };
@@ -200,39 +202,54 @@ Game.update = function (delta) {
     var dirx = 0;
     var diry = 0;
     if (Keyboard.isDown(Keyboard.LEFT)) {
-        dirx = -1;
-        this.hero.image = {
-            dx = 0,
-            dy = 0,
-            width = 64,
-            height = 64
+        dirx -= 1;
+        srcX = 0;
+        srcY = 192;
+        direction = "LEFT"
     }
-}
+
     else if (Keyboard.isDown(Keyboard.RIGHT)) {
-        dirx = 1;
+        dirx += 1;
+        srcX = 64;
+        srcY = 64;
+        direction = "RIGHT"
     }
 
     else if (Keyboard.isDown(Keyboard.UP)) {
-        diry = -1;
+        diry -= 1;
+        srcX = 64;
+        srcY = 0;
+        direction = "UP"
     }
 
     else if (Keyboard.isDown(Keyboard.DOWN)) {
-        diry = 1;
+        diry += 1;
+        srcX = 64;
+        srcY = 128;
+        direction = "DOWN"
     }
     //Spacebar bullet shot
     else if (Keyboard.isDown(Keyboard.SPACE)) { // Spacebar
-        bullet.x = this.hero.x;
-        bullet.y = this.hero.y;
+        bullet.x = this.hero.screenX;
+        bullet.y = this.hero.screenY;
     }
+
     this.hero.move(delta, dirx, diry);
+
+    // Bullet Direction
+    if(direction == "UP") {
+        bullet.y -= Hero.SPEED * delta
+    } else if (direction == "LEFT") {
+        bullet.x -= Hero.SPEED * delta
+    } else if (direction == "RIGHT") {
+        bullet.x += Hero.SPEED * delta
+    } else if (direction == "DOWN") {
+        bullet.y += Hero.SPEED * delta;
+    }
+    
     this.camera.update();
 
-    //move bullet
-    bullet.y -= Hero.SPEED * delta;
-
 };
-
-
 
 Game._drawLayer = function (layer) {
     var startCol = Math.floor(this.camera.x / map.tsize);
@@ -264,19 +281,24 @@ Game._drawLayer = function (layer) {
     }
 };
 
+// var charX = hero.screenX - hero.width / 2;
+// var charY = 128;
+
 Game.render = function () {
     // draw map background layer
     this._drawLayer(0);
-
     // draw main character
     this.ctx.drawImage(
-        this.hero.image,64,128,64,64,
-        this.hero.screenX - this.hero.width / 2,
-        this.hero.screenY - this.hero.height / 2,64,64);
-
-        if (bulletReady) {
-        this.ctx.drawImage(bulletImage, bullet.x, bullet.y);
-        }
+        this.hero.image,srcX,srcY,64,64,this.hero.screenX - this.hero.width / 2,this.hero.screenY - this.hero.height / 2,64,64
+    );
+    if (Keyboard.RIGHT == false || Keyboard.LEFT == false) {
+      srcX = 64;
+      srcY = 128;
+    }
+    if (bulletReady) { //bullet.x, bullet.
+        // this.ctx.drawImage(bulletImage, srcX,srcY,64,64,this.hero.screenX - this.hero.width / 2,this.hero.screenY - this.hero.height / 2,64,64);
+        this.ctx.drawImage(bulletImage, bullet.x,bullet.y )
+}
 
     // draw map top layer
     this._drawLayer(1);
