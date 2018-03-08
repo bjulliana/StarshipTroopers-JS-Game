@@ -42,8 +42,8 @@
             speedY: 2, //speed in Y
             w: 30, //width
             h: 40, //heght
-            srcX: 37,
-            srcY: 0
+            srcX: 37, //Initial Sprite x Source
+            srcY: 0 //Initial Sprite y Source
         },
         {
             x: 300,
@@ -90,7 +90,7 @@
         w: 28,
         h: 50,
         srcX: 34,
-        srcY: 50
+        srcY: 50,
     };
 
     //Hero Image
@@ -157,20 +157,20 @@
             spacePressed = false;
         }
     }
+
     //update the logic
     var update = function() {
         //Check if Level Won
         if(checkCollision(hero, ship)) {
-            alert('Congratulations! Go to Next Level');
+            alert('Congratulations! On to the Next Level');
             level += 1;
-            life += 1;
             hero.speed += 1;
             hero.x = 70;
             hero.y = 250;
             hero.srcX = 34;
             hero.srcY = 50;
 
-            for(var ab = 0; ab < bugs.length; ab++){
+            for(var ab = 0; ab<bugs.length; ab++){
                 if(bugs[ab].speedY > 1){
                 bugs[ab].speedY += 1 ;
                 }
@@ -181,36 +181,40 @@
         }
 
         //Keyboard Move
-        if(rightPressed == true) {
-            hero.x += hero.speed,
-            hero.srcX = 34,
-            hero.srcY = 50
-        }
-        else if(leftPressed == true) {
-            hero.x -= hero.speed;
-            hero.srcX = 34,
-            hero.srcY = 150
-        }
-        else if(downPressed == true) {
-            hero.y += hero.speed;
-            hero.srcX = 34,
-            hero.srcY = 100
-        }
-        else if(upPressed == true) {
-            hero.y -= hero.speed;
-            hero.srcX = 34,
-            hero.srcY = 0
-        }
-        else if(spacePressed) {
-            console.log(hero.x, hero.y, hero.srcX, hero.srcY);
-        }
+            if(rightPressed == true) {
+                hero.x += hero.speed,
+                hero.srcX = 34,
+                hero.srcY = 50
+            }
+            else if(leftPressed == true) {
+                hero.x -= hero.speed,
+                hero.srcX = 34,
+                hero.srcY = 150
+            }
+            else if(downPressed == true) {
+                hero.y += hero.speed,
+                hero.srcX = 34,
+                hero.srcY = 100
+            }
+            else if(upPressed == true) {
+                hero.y -= hero.speed,
+                hero.srcX = 34,
+                hero.srcY = 0
+            }
+            else if(spacePressed) {
+                console.log(hero.x, hero.y, hero.srcX, hero.srcY);
+            }
+            // else {
+            //     hero.x = hero.x;
+            //     hero.y = hero.y;
+            // }
 
         //Update the Bugs
         var i = 0;
         var n = bugs.length;
 
         bugs.forEach(function(element, index){
-          //Check for Collision
+          //Check for Collision with Bug
             if(checkCollision(hero, element)) {
                 //Stop the Game and Reduce Life
                 if(life === 0){
@@ -232,6 +236,8 @@
                 }
                 hero.x = 70;
                 hero.y = 250;
+                hero.srcX = 34;
+                hero.srcY = 50;
             }
 
             //Move the Bugs
