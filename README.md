@@ -1,12 +1,31 @@
-# HTML Game for Starship Troopers
+# Starship Troopers Game
+Single Player 2D Canvas games based on the Starship Troopers Movie.
 
 Built with HTML5, CSS, JavaScript and extra side of awesome.
 
-Contributors: Julliana Bauer and John Robertson.
 
+## HOW TO PLAY
+- Move the player using the arrow keys until he reaches the ship to scape Planet P.
+- You have 5 lives and you loose one each time you touches a bug.
+- Each level increases the Bug speed and the hero speed.
+- At game over you start at level one again.
+- Up to what level can you reach?
 
+## SUPPORTED BROWSERS
+- Chrome 24+
+- Firefox 18+
+- IE 9+
 
-TODO:
-  - Resolve move Problem with new level;
-  - Define Final Graphics
-  - Sprite Movement
+## KNOWN ISSUES
+ - No support for touch/mobile devices
+
+## TODO
+  - Resolve move Problem with new level
+  - Design Final Graphics
+  - Work on Sprite Movement
+  - Create Start screen
+  - Set game info outside of Canvas
+
+### Created By
+- Julliana Bauer
+- John Robertson
