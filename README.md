@@ -23,7 +23,7 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
   - Resolve move Problem with new level
   - Design Final Graphics
   - Work on Sprite Movement
-  - Create Start screen
+  - Create Start, Next Level and Game Over screens
   - Set game info outside of Canvas
 
 ### Created By
