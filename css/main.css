@@ -1,7 +1,28 @@
+/* CSS Stylesheed for Starship Troppers Game */
+
 body
 {
-  background-color: black;
-  color: white;
+  color: #3c3c3c;
   font-family: 'Courier New', 'Arial', sans-serif;
   line-height: 25px;
+}
+
+#mainContainer {
+  width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+canvas {
+  border-color: #2c2c2c;
+  border-style: solid;
+  border-width: 1px;
 }
