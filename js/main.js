@@ -24,10 +24,10 @@
           return this.tiles[row * map.cols + col];
         }
     };
-    var rightPressed = false;
-    var leftPressed = false;
-    var upPressed = false;
-    var downPressed = false;
+    var rightKey = false;
+    var leftKey = false;
+    var upKey = false;
+    var downKey = false;
     var spacePressed = false;
 
     //Map image
@@ -124,16 +124,16 @@
     // Keyboard
     function keyDownHandler(event) {
         if(event.keyCode == 39) {
-            rightPressed = true;
+            rightKey = true;
         }
         else if(event.keyCode == 37) {
-            leftPressed = true;
+            leftKey = true;
         }
         if(event.keyCode == 40) {
-        	downPressed = true;
+        	downKey = true;
         }
         else if(event.keyCode == 38) {
-        	upPressed = true;
+        	upKey = true;
         }
         if(event.keyCode == 32) {
             spacePressed = true;
@@ -142,25 +142,25 @@
 
     function keyUpHandler(event) {
         if(event.keyCode == 39) {
-            rightPressed = false;
+            rightKey = false;
         }
         else if(event.keyCode == 37) {
-            leftPressed = false;
+            leftKey = false;
         }
         if(event.keyCode == 40) {
-        	downPressed = false;
+        	downKey = false;
         }
         else if(event.keyCode == 38) {
-        	upPressed = false;
+        	upKey = false;
         }
         if(event.keyCode == 32) {
             spacePressed = false;
         }
     }
 
-    //update the logic
+    //Updated the Game
     var update = function() {
-        //Check if Level Won
+        //Level Won
         if(checkCollision(hero, ship)) {
             alert('Congratulations! On to the Next Level');
             level += 1;
@@ -170,6 +170,7 @@
             hero.srcX = 34;
             hero.srcY = 50;
 
+            // Increases Bug Speed at each level
             for(var ab = 0; ab<bugs.length; ab++){
                 if(bugs[ab].speedY > 1){
                 bugs[ab].speedY += 1 ;
@@ -180,45 +181,42 @@
             }
         }
 
-        //Keyboard Move
-            if(rightPressed == true) {
-                hero.x += hero.speed,
-                hero.srcX = 34,
-                hero.srcY = 50
-            }
-            else if(leftPressed == true) {
-                hero.x -= hero.speed,
-                hero.srcX = 34,
-                hero.srcY = 150
-            }
-            else if(downPressed == true) {
-                hero.y += hero.speed,
-                hero.srcX = 34,
-                hero.srcY = 100
-            }
-            else if(upPressed == true) {
-                hero.y -= hero.speed,
-                hero.srcX = 34,
-                hero.srcY = 0
-            }
-            else if(spacePressed) {
-                console.log(hero.x, hero.y, hero.srcX, hero.srcY);
-            }
-            // else {
-            //     hero.x = hero.x;
-            //     hero.y = hero.y;
-            // }
+        //Keyboard Move Hero and Define Sprite Sheet
+        if(rightKey == true) {
+            hero.x += hero.speed,
+            hero.srcX = 34,
+            hero.srcY = 50
+        }
+        else if(leftKey == true) {
+            hero.x -= hero.speed,
+            hero.srcX = 34,
+            hero.srcY = 150
+        }
+        else if(downKey == true) {
+            hero.y += hero.speed,
+            hero.srcX = 34,
+            hero.srcY = 100
+        }
+        else if(upKey == true) {
+            hero.y -= hero.speed,
+            hero.srcX = 34,
+            hero.srcY = 0
+        }
+        else if(spacePressed) {
+            console.log(hero.x, hero.y, hero.srcX, hero.srcY);
+        }
 
-        //Update the Bugs
+        // Bugs Var
         var i = 0;
         var n = bugs.length;
 
-        bugs.forEach(function(element, index){
-          //Check for Collision with Bug
-            if(checkCollision(hero, element)) {
+        // Bugs Functions (Move, Collision)
+        bugs.forEach(function(bug, index){
+          //Lose Live at Collision with Bug
+            if(checkCollision(hero, bug)) {
                 //Stop the Game and Reduce Life
                 if(life === 0){
-                    alert('Game Over');
+                    alert('Game Over'); // If lives === 0 then Game Over
                     for(var ab = 0; ab < bugs.length; ab++){
                         if(bugs[ab].speedY > 1){
                             bugs[ab].speedY -= (level - 1) ;
@@ -241,20 +239,20 @@
             }
 
             //Move the Bugs
-            element.y += element.speedY;
+            bug.y += bug.speedY;
 
             //Define Borders for Bugs
-            if(element.y <= 60) {
-                element.y = 60;
-                element.speedY *= -1;
-                element.srcX = 37;
-                element.srcY = 0;
+            if(bug.y <= 60) {
+                bug.y = 60;
+                bug.speedY *= -1;
+                bug.srcX = 37;
+                bug.srcY = 0;
             }
-            else if(element.y >= GAME_HEIGHT - 110) {
-                element.y = GAME_HEIGHT - 110;
-                element.speedY *= -1;
-                element.srcX = 0;
-                element.srcY = 0;
+            else if(bug.y >= GAME_HEIGHT - 110) {
+                bug.y = GAME_HEIGHT - 110;
+                bug.speedY *= -1;
+                bug.srcX = 0;
+                bug.srcY = 0;
             }
         });
 
@@ -265,7 +263,7 @@
         else if(hero.y >= GAME_HEIGHT - 110) {
             hero.y = GAME_HEIGHT - 110;
         }
-        else if(hero.x <= 64) {
+        if(hero.x <= 64) {
             hero.x = 64;
         }
         else if(hero.x >= GAME_WIDTH - 90) {
@@ -311,8 +309,8 @@
         ctx.drawImage(heroImage, hero.srcX, hero.srcY, 34, 50, hero.x, hero.y, 34, 50);
 
         //Draw Bugs
-        bugs.forEach(function(element, index){
-             ctx.drawImage(bugImage, element.srcX, element.srcY, 37, 50, element.x, element.y, 37, 50);
+        bugs.forEach(function(bug, index){
+             ctx.drawImage(bugImage, bug.srcX, bug.srcY, 37, 50, bug.x, bug.y, 37, 50);
         });
 
         //Draw Ship
