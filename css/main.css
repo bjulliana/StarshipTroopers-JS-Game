@@ -20,18 +20,30 @@ h2 {
   text-align: center;
 }
 
-#container {
-    width: 100%;
+.container {
+    position: relative;
+    margin: 0 auto;
     height: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
+    width: auto;
 }
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: ' ';
+}
+
+.clearfix:after {
+  clear: both; }
 
 canvas {
   border-color: #2c2c2c;
   border-style: solid;
   border-width: 1px;
+  z-index: -1;
+  /* position: absolute; */
+  display: block;
+  margin: 0 auto;
 }
 
 .infoGame {
@@ -43,6 +55,56 @@ canvas {
 /* Start Screen */
 
 .startScreen {
+  position: absolute;
+  background-image: url("../images/startScreen.png");
+  height: 512px;
+  width: 768px;
+  margin: 0 auto;
+  display: block;
+  z-index: 1;
+  left: 14.45%;
+  top: 0.2%;
+}
+
+.infoScreen {
+  position: absolute;
+  background-image: url("../images/infoScreen.png");
+  height: 512px;
+  width: 768px;
+  margin: 0 auto;
   display: none;
-  background:
+  z-index: 1;
+  left: 14.45%;
+  top: 0.2%;
+}
+
+.startScreen button {
+  top: 330px;
+}
+
+.backButton {
+  top: 400px;
+}
+.startScreen button,
+.infoScreen button {
+  position: relative;
+  padding: 10px 30px;
+  margin: 30px 10px 10px 0px;
+  border-radius: 10px;
+  font-family: 'Courier New', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFF;
+  text-decoration: none;
+  background-color: #4A5D95;
+  border-bottom: 5px solid #2e3d69;
+  text-shadow: 0px -2px #2e3d69;
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.startScreen button:hover,
+.infoScreen button:hover {
+  background-color: #3c5290;
 }
