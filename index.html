@@ -10,30 +10,26 @@
   <title>Starship Troopers Game</Title>
 </head>
 <body>
-  <main id="mainContainer">
-    <!-- <img id="gameLogo" src='#'> -->
+  <main id="mainContainer" class="clearfix">
     <section>
       <h2>Awesome JS Starship Troopers Game</h2>
     </section>
-    <section class="infoGame">
+    <section class="infoGame clearfix">
       <div id="level"></div>
       <div id="lifes"></div>
     </section>
-
-    <canvas id="Canvas" width="768" height="512">
-      <div class="unsupported">
-        Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
-      </div>
-      <section class="startScreen">
-      <h1>Starship Troopers Game</h1>
-      <button>Start Game></button>
+    <div class="container clearfix">
+      <section class="startScreen clearfix">
+        <button class="startGame">Press to Start</button>
+        <button class="howTo">How to Play</button>
       </section>
-    </canvas>
-
-
-    <footer>
-      <p></p>
-    </footer>
+      <section class="infoScreen clearfix">
+        <button class="backButton">Back</button>
+      </section>
+      <canvas id="Canvas" width="768" height="512">
+        <div class="unsupported"><p>Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element</p></div>
+      </canvas>
+    </div>
   </main>
 
   <script src="js/main.js"></script>
