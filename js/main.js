@@ -1,8 +1,8 @@
 (() => {
     console.log('Loaded');
 
-    const GAME_WIDTH = 768;
-    const GAME_HEIGHT = 512;
+    const gameWidth = 768;
+    const gameHeight = 512;
     var gameLive = true;
     var level = 1;
     var life = 5;
@@ -29,6 +29,8 @@
     var upKey = false;
     var downKey = false;
     var spacePressed = false;
+    var isMoving = false;
+    var spriteWidth = 102;
 
     //Map image
     var tileSheet = new Image();
@@ -41,7 +43,7 @@
             y: 100, //y coordinate
             speedY: 2, //speed in Y
             w: 30, //width
-            h: 40, //heght
+            h: 40, //height
             srcX: 37, //Initial Sprite x Source
             srcY: 0 //Initial Sprite y Source
         },
@@ -75,30 +77,36 @@
     ];
 
     //Bug Image
-    var bugReady = false;
+    // var bugReady = false;
     var bugImage = new Image();
-    bugImage.onload = function () {
-        bugReady = true;
-    };
+    // bugImage.onload = function () {
+    //     bugReady = true;
+    // };
     bugImage.src = "images/bugset.png";
 
     //Hero
     var hero = {
         x: 70,
         y: 250,
-        speed: 2,
-        w: 28,
+        speed: 12,
+        w: 33,
         h: 50,
+        width: 34,
+        height: 50,
         srcX: 34,
-        srcY: 50,
+        srcY: 51,
+        up: 0,
+        right: 51,
+        down: 102,
+        left: 153
     };
 
     //Hero Image
-    var heroReady = false;
+    // var heroReady = false;
     var heroImage = new Image();
-    heroImage.onload = function () {
-        heroReady = true;
-    };
+    // heroImage.onload = function () {
+    //     heroReady = true;
+    // };
     heroImage.src = "images/heroset.png";
 
     //Ship
@@ -110,11 +118,11 @@
     }
 
     //Ship Image
-    var shipReady = false;
+    // var shipReady = false;
     var shipImage = new Image();
-    shipImage.onload = function () {
-        shipReady = true;
-    };
+    // shipImage.onload = function () {
+    //     shipReady = true;
+    // };
     shipImage.src = "images/ship.png";
 
     //Returns the drawing context on the canvas
@@ -125,15 +133,19 @@
     function keyDownHandler(event) {
         if(event.keyCode == 39) {
             rightKey = true;
+            isMoving = true;
         }
         else if(event.keyCode == 37) {
             leftKey = true;
+            isMoving = true;
         }
         if(event.keyCode == 40) {
         	downKey = true;
+            isMoving = true;
         }
         else if(event.keyCode == 38) {
         	upKey = true;
+            isMoving = true;
         }
         if(event.keyCode == 32) {
             spacePressed = true;
@@ -143,15 +155,19 @@
     function keyUpHandler(event) {
         if(event.keyCode == 39) {
             rightKey = false;
+            isMoving = false;
         }
         else if(event.keyCode == 37) {
             leftKey = false;
+            isMoving = false;
         }
         if(event.keyCode == 40) {
         	downKey = false;
+            isMoving = false;
         }
         else if(event.keyCode == 38) {
         	upKey = false;
+            isMoving = false;
         }
         if(event.keyCode == 32) {
             spacePressed = false;
@@ -162,9 +178,9 @@
     var update = function() {
         //Level Won
         if(checkCollision(hero, ship)) {
-            alert('Congratulations! On to the Next Level');
+            alert('Congratulations! Go to Next Level');
             level += 1;
-            hero.speed += 1;
+            hero.speed += 3;
             hero.x = 70;
             hero.y = 250;
             hero.srcX = 34;
@@ -182,28 +198,29 @@
         }
 
         //Keyboard Move Hero and Define Sprite Sheet
-        if(rightKey == true) {
-            hero.x += hero.speed,
-            hero.srcX = 34,
-            hero.srcY = 50
-        }
-        else if(leftKey == true) {
-            hero.x -= hero.speed,
-            hero.srcX = 34,
-            hero.srcY = 150
-        }
-        else if(downKey == true) {
-            hero.y += hero.speed,
-            hero.srcX = 34,
-            hero.srcY = 100
-        }
-        else if(upKey == true) {
-            hero.y -= hero.speed,
-            hero.srcX = 34,
-            hero.srcY = 0
-        }
-        else if(spacePressed) {
-            console.log(hero.x, hero.y, hero.srcX, hero.srcY);
+        if (isMoving) {
+            if(rightKey == true) {
+                hero.x += hero.speed,
+                hero.srcY = hero.right
+            }
+            else if(leftKey == true) {
+                hero.x -= hero.speed,
+                hero.srcY = hero.left
+            }
+            else if(downKey == true) {
+                hero.y += hero.speed,
+                hero.srcY = hero.down
+            }
+            else if(upKey == true) {
+                hero.y -= hero.speed,
+                hero.srcY = hero.up
+            }
+
+            hero.srcX += hero.width;
+
+            if (hero.srcX >= spriteWidth) {
+            hero.srcX = 0;
+            }
         }
 
         // Bugs Var
@@ -211,25 +228,25 @@
         var n = bugs.length;
 
         // Bugs Functions (Move, Collision)
-        bugs.forEach(function(bug, index){
+        bugs.forEach(function(bug, index) {
           //Lose Live at Collision with Bug
             if(checkCollision(hero, bug)) {
                 //Stop the Game and Reduce Life
-                if(life === 0){
+                if(life === 0) {
                     alert('Game Over'); // If lives === 0 then Game Over
                     for(var ab = 0; ab < bugs.length; ab++){
                         if(bugs[ab].speedY > 1){
                             bugs[ab].speedY -= (level - 1) ;
                         }
-                        else{
+                        else {
                             bugs[ab].speedY += (level - 1) ;
                         }
                     }
                     level = 1;
                     life = 6;
-                    hero.speed = 2;
+                    hero.speed = 12;
                 }
-                if(life > 0){
+                if(life > 0) {
                     life -= 1 ;
                 }
                 hero.x = 70;
@@ -248,8 +265,8 @@
                 bug.srcX = 37;
                 bug.srcY = 0;
             }
-            else if(bug.y >= GAME_HEIGHT - 110) {
-                bug.y = GAME_HEIGHT - 110;
+            else if(bug.y >= gameHeight - 110) {
+                bug.y = gameHeight - 110;
                 bug.speedY *= -1;
                 bug.srcX = 0;
                 bug.srcY = 0;
@@ -260,14 +277,14 @@
         if(hero.y <= 60) {
             hero.y = 60;
         }
-        else if(hero.y >= GAME_HEIGHT - 110) {
-            hero.y = GAME_HEIGHT - 110;
+        else if(hero.y >= gameHeight - 110) {
+            hero.y = gameHeight - 110;
         }
         if(hero.x <= 64) {
             hero.x = 64;
         }
-        else if(hero.x >= GAME_WIDTH - 90) {
-            hero.x = GAME_WIDTH - 90;
+        else if(hero.x >= gameWidth - 90) {
+            hero.x = gameWidth - 90;
         }
     };
 
@@ -296,17 +313,15 @@
     //Draw the Game
     var draw = function() {
         //Clear the Canvas
-        // ctx.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        // ctx.clearRect(0,0,gameWidth,gameHeight);
 
         //Draw Canvas
         drawMap();
-        ctx.font = "15px Verdana";
-        ctx.fillText("Level: " + level, 10, 15);
-        ctx.fillText("Life: " + life, 10, 35);
-        ctx.fillText("Speed: " + hero.speed, 10, 55);
+        document.querySelector('#level').textContent = "Level: " + level, 10, 15;
+        document.querySelector('#lifes').textContent = "Life: " + life, 10, 35;
 
         //Draw Hero
-        ctx.drawImage(heroImage, hero.srcX, hero.srcY, 34, 50, hero.x, hero.y, 34, 50);
+        ctx.drawImage(heroImage, hero.srcX, hero.srcY, hero.width, hero.height, hero.x, hero.y, hero.width, hero.height);
 
         //Draw Bugs
         bugs.forEach(function(bug, index){
@@ -323,6 +338,7 @@
         draw();
         if(gameLive) {
             window.requestAnimationFrame(init);
+        isMoving = false;
         }
     };
 
