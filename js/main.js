@@ -1,5 +1,5 @@
 (() => {
-    console.log('Loaded');
+    console.log('JS Loaded');
 
     const gameWidth = 768;
     const gameHeight = 512;
@@ -34,6 +34,12 @@
     var bugStartUp = 0;
     var bugStartDown = 48;
     var bugSpriteWidth = 150;
+    var startButton = document.querySelector('.startGame');
+    var startScreen = document.querySelector('.startScreen');
+    var howToButton = document.querySelector('.howTo')
+    var infoScreen = document.querySelector('.infoScreen');
+    var backButton = document.querySelector('.backButton');
+
 
     //Map image
     var tileSheet = new Image();
@@ -163,6 +169,28 @@
         if(event.keyCode == 32) {
             spacePressed = false;
         }
+    }
+
+    // Start Button Click === Start Game
+    function startGame() {
+        init();
+    }
+
+    // Hide Start Screen after Click Start Button
+    function hidestartScreen() {
+        startScreen.style.display = 'none';
+    }
+
+    //Click How to Play Button show Info Screen
+    function showInfoScreen() {
+        infoScreen.style.display = 'block';
+        startScreen.style.display = 'none';
+    }
+
+    //Click Back Button on Info Screen Return to Main Screen
+    function showsStartScreen() {
+        infoScreen.style.display = 'none';
+        startScreen.style.display = 'block';
     }
 
     //Updated the Game
@@ -315,8 +343,8 @@
 
         //Draw Canvas
         drawMap();
-        document.querySelector('#level').textContent = "Level: " + level, 10, 15;
-        document.querySelector('#lifes').textContent = "Life: " + life, 10, 35;
+        document.querySelector('#level').textContent = "Level: " + level;
+        document.querySelector('#lifes').textContent = "Life: " + life;
 
         //Draw Hero
         ctx.drawImage(heroImage, hero.srcX, hero.srcY, hero.width, hero.height, hero.x, hero.y, hero.width, hero.height);
@@ -350,8 +378,9 @@
     //Event Listeners
     document.addEventListener('keydown', keyDownHandler);
     document.addEventListener('keyup', keyUpHandler);
-
-    //Initialize
-    init();
+    startButton.addEventListener('click', startGame);
+    startButton.addEventListener('mouseup', hidestartScreen);
+    howToButton.addEventListener('click', showInfoScreen);
+    backButton.addEventListener('click', showsStartScreen);
 
 })();
