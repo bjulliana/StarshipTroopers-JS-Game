@@ -20,11 +20,8 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
  - No support for touch/mobile devices
 
 ## TODO
-  - Resolve move Problem with new level
   - Design Final Graphics
-  - Work on Sprite Movement
   - Create Start, Next Level and Game Over screens
-  - Set game info outside of Canvas
 
 ### Created By
 - Julliana Bauer
