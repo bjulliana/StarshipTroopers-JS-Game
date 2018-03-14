@@ -31,6 +31,9 @@
     var spacePressed = false;
     var isMoving = false;
     var spriteWidth = 102;
+    var bugStartUp = 0;
+    var bugStartDown = 48;
+    var bugSpriteWidth = 150;
 
     //Map image
     var tileSheet = new Image();
@@ -42,47 +45,43 @@
             x: 200, //x coordinate
             y: 100, //y coordinate
             speedY: 2, //speed in Y
-            w: 30, //width
-            h: 40, //height
-            srcX: 37, //Initial Sprite x Source
+            w: 50, //width
+            h: 48, //height
+            srcX: 0, //Initial Sprite x Source
             srcY: 0 //Initial Sprite y Source
         },
         {
             x: 300,
             y: 0,
             speedY: 2,
-            w: 30,
-            h: 40,
-            srcX: 37,
+            w: 50,
+            h: 48,
+            srcX: 0,
             srcY: 0
         },
         {
             x: 430,
             y: 100,
             speedY: 3,
-            w: 30,
-            h: 40,
-            srcX: 37,
+            w: 50,
+            h: 48,
+            srcX: 0,
             srcY: 0
         },
         {
             x: 550,
-            y: 100,
+            y: 200,
             speedY: -3,
-            w: 30,
-            h: 40,
+            w: 50,
+            h: 48,
             srcX: 0,
-            srcY: 0
+            srcY: 48
         }
     ];
 
-    //Bug Image
-    // var bugReady = false;
+    //Bugs Images
     var bugImage = new Image();
-    // bugImage.onload = function () {
-    //     bugReady = true;
-    // };
-    bugImage.src = "images/bugset.png";
+    bugImage.src = "images/bug_sprite.png";
 
     //Hero
     var hero = {
@@ -102,11 +101,7 @@
     };
 
     //Hero Image
-    // var heroReady = false;
     var heroImage = new Image();
-    // heroImage.onload = function () {
-    //     heroReady = true;
-    // };
     heroImage.src = "images/heroset.png";
 
     //Ship
@@ -118,18 +113,14 @@
     }
 
     //Ship Image
-    // var shipReady = false;
     var shipImage = new Image();
-    // shipImage.onload = function () {
-    //     shipReady = true;
-    // };
     shipImage.src = "images/ship.png";
 
     //Returns the drawing context on the canvas
     var canvas = document.querySelector('canvas');
     var ctx = canvas.getContext('2d');
 
-    // Keyboard
+    // Keyboard Functions
     function keyDownHandler(event) {
         if(event.keyCode == 39) {
             rightKey = true;
@@ -176,7 +167,7 @@
 
     //Updated the Game
     var update = function() {
-        //Level Won
+        //Level Won - Define Game Parameters at new level
         if(checkCollision(hero, ship)) {
             alert('Congratulations! Go to Next Level');
             level += 1;
@@ -215,15 +206,16 @@
                 hero.y -= hero.speed,
                 hero.srcY = hero.up
             }
-
+            // Defines Hero Movement with Sprite
             hero.srcX += hero.width;
 
+            // If hero sprite reaches end, return to 0
             if (hero.srcX >= spriteWidth) {
             hero.srcX = 0;
             }
         }
 
-        // Bugs Var
+        // Bugs Var for Speed Increase
         var i = 0;
         var n = bugs.length;
 
@@ -242,13 +234,16 @@
                             bugs[ab].speedY += (level - 1) ;
                         }
                     }
+                    //Set level parameters if Game Over
                     level = 1;
                     life = 6;
                     hero.speed = 12;
                 }
+                //If Collision, reduces one live
                 if(life > 0) {
                     life -= 1 ;
                 }
+                //Define Position of Hero at Game Over
                 hero.x = 70;
                 hero.y = 250;
                 hero.srcX = 34;
@@ -262,14 +257,19 @@
             if(bug.y <= 60) {
                 bug.y = 60;
                 bug.speedY *= -1;
-                bug.srcX = 37;
                 bug.srcY = 0;
             }
             else if(bug.y >= gameHeight - 110) {
                 bug.y = gameHeight - 110;
                 bug.speedY *= -1;
-                bug.srcX = 0;
-                bug.srcY = 0;
+                bug.srcY = 48;
+            }
+            //Bug Sprite Movement
+            bug.srcX = bug.w
+
+            //If Reaches Final of Sprite, Return to 0
+            if (bug.srcX >= bugSpriteWidth) {
+            bug.srcX = 0;
             }
         });
 
@@ -312,8 +312,6 @@
 
     //Draw the Game
     var draw = function() {
-        //Clear the Canvas
-        // ctx.clearRect(0,0,gameWidth,gameHeight);
 
         //Draw Canvas
         drawMap();
@@ -325,7 +323,7 @@
 
         //Draw Bugs
         bugs.forEach(function(bug, index){
-             ctx.drawImage(bugImage, bug.srcX, bug.srcY, 37, 50, bug.x, bug.y, 37, 50);
+             ctx.drawImage(bugImage, bug.srcX, bug.srcY, bug.w, bug.h, bug.x, bug.y, bug.w, bug.h);
         });
 
         //Draw Ship
