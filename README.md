@@ -6,7 +6,7 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 
 ## HOW TO PLAY
 - Move the player using the arrow keys until he reaches the ship to scape Planet P.
-- You have 5 lives and you loose one each time you touches a bug.
+- You have 5 lives and you lose one each time you touches a bug.
 - Each level increases the Bug speed and the hero speed.
 - At game over you start at level one again.
 - Up to what level can you reach?
