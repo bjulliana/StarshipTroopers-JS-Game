@@ -18,6 +18,7 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 
 ## KNOWN ISSUES
  - No support for touch/mobile devices
+ - Hit Boxes are not precise enough on bugs
 
 ## TODO
   - Design Final Graphics
