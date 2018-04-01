@@ -11,14 +11,14 @@
         rows: 12,
         tsize: 64,
         tiles: [
-         3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
-         3, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 3,
-         3, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 3,
-         3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3
+         8, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9,
+         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
+         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
+         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
+         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
+         3, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 4,
+         3, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 4,
+         7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 10
         ],
         getTile: function (col, row) {
           return this.tiles[row * map.cols + col];
@@ -39,11 +39,20 @@
     var howToButton = document.querySelector('.howTo')
     var infoScreen = document.querySelector('.infoScreen');
     var backButton = document.querySelector('.backButton');
-
+    var mainAudio = new Audio('audio/main_soundtrack.mp3');
+    var deathAudio = new Audio('audio/death.wav');
+    var gameoverAudio = new Audio('audio/gameover.wav');
+    var winAudio = new Audio('audio/success.wav');
+    var clickAudio = new Audio('audio/select.wav');
+    var volume = document.querySelector('.volume');
+    var overScreen = document.querySelector('.gameoverScreen');
+    var nextScreen = document.querySelector('.nextlevelScreen');
+    var nextButton = document.querySelector('.nextLevel');
+    var restartButton = document.querySelector('.restart');
 
     //Map image
     var tileSheet = new Image();
-    tileSheet.src = 'images/tileset.png';
+    tileSheet.src = 'images/newtileset.png';
 
     //Bugs
     var bugs = [
@@ -51,8 +60,10 @@
             x: 200, //x coordinate
             y: 100, //y coordinate
             speedY: 2, //speed in Y
-            w: 50, //width
-            h: 48, //height
+            width: 50, //width
+            height: 48, //height
+            w: 30, //Collision width
+            h: 35, //Collision height
             srcX: 0, //Initial Sprite x Source
             srcY: 0 //Initial Sprite y Source
         },
@@ -60,8 +71,10 @@
             x: 300,
             y: 0,
             speedY: 2,
-            w: 50,
-            h: 48,
+            width: 50,
+            height: 48,
+            w: 30,
+            h: 35,
             srcX: 0,
             srcY: 0
         },
@@ -69,8 +82,10 @@
             x: 430,
             y: 100,
             speedY: 3,
-            w: 50,
-            h: 48,
+            width: 50,
+            height: 48,
+            w: 30,
+            h: 35,
             srcX: 0,
             srcY: 0
         },
@@ -78,8 +93,10 @@
             x: 550,
             y: 200,
             speedY: -3,
-            w: 50,
-            h: 48,
+            width: 50,
+            height: 48,
+            w: 30,
+            h: 35,
             srcX: 0,
             srcY: 48
         }
@@ -94,7 +111,7 @@
         x: 70,
         y: 250,
         speed: 12,
-        w: 33,
+        w: 30,
         h: 50,
         width: 34,
         height: 50,
@@ -173,6 +190,7 @@
 
     // Start Button Click === Start Game
     function startGame() {
+        clickAudio.play();
         init();
     }
 
@@ -183,21 +201,45 @@
 
     //Click How to Play Button show Info Screen
     function showInfoScreen() {
+        clickAudio.play();
         infoScreen.style.display = 'block';
         startScreen.style.display = 'none';
     }
 
     //Click Back Button on Info Screen Return to Main Screen
     function showsStartScreen() {
+        clickAudio.play();
         infoScreen.style.display = 'none';
         startScreen.style.display = 'block';
     }
+
+    //Next Level Screen
+    function showNextScreen() {
+        nextScreen.style.display = 'block';
+    }
+
+    //Next Level Hide
+    function hideNextScreen() {
+        nextScreen.style.display = 'none';
+    }
+
+    //Next Level Screen
+    function showOverScreen() {
+        overScreen.style.display = 'block';
+    }
+
+    //Next Level Hide
+    function hideOverScreen() {
+        overScreen.style.display = 'none';
+    }
+    
 
     //Updated the Game
     var update = function() {
         //Level Won - Define Game Parameters at new level
         if(checkCollision(hero, ship)) {
-            alert('Congratulations! Go to Next Level');
+            winAudio.play();
+            showNextScreen();
             level += 1;
             hero.speed += 3;
             hero.x = 70;
@@ -253,7 +295,8 @@
             if(checkCollision(hero, bug)) {
                 //Stop the Game and Reduce Life
                 if(life === 0) {
-                    alert('Game Over'); // If lives === 0 then Game Over
+                    gameoverAudio.play(); 
+                    showOverScreen();
                     for(var ab = 0; ab < bugs.length; ab++){
                         if(bugs[ab].speedY > 1){
                             bugs[ab].speedY -= (level - 1) ;
@@ -268,6 +311,7 @@
                     hero.speed = 12;
                 }
                 //If Collision, reduces one live
+                deathAudio.play(); 
                 if(life > 0) {
                     life -= 1 ;
                 }
@@ -282,18 +326,18 @@
             bug.y += bug.speedY;
 
             //Define Borders for Bugs
-            if(bug.y <= 60) {
-                bug.y = 60;
+            if(bug.y <= 40) {
+                bug.y = 40;
                 bug.speedY *= -1;
                 bug.srcY = 0;
             }
-            else if(bug.y >= gameHeight - 110) {
-                bug.y = gameHeight - 110;
+            else if(bug.y >= gameHeight - 70) {
+                bug.y = gameHeight - 70;
                 bug.speedY *= -1;
                 bug.srcY = 48;
             }
             //Bug Sprite Movement
-            bug.srcX = bug.w
+            bug.srcX = bug.width
 
             //If Reaches Final of Sprite, Return to 0
             if (bug.srcX >= bugSpriteWidth) {
@@ -302,19 +346,58 @@
         });
 
         //Define Map Borders for Hero
-        if(hero.y <= 60) {
-            hero.y = 60;
+        if(hero.y <= 20) {
+            hero.y = 20;
         }
-        else if(hero.y >= gameHeight - 110) {
-            hero.y = gameHeight - 110;
+        else if(hero.y >= gameHeight - 70) {
+            hero.y = gameHeight - 70;
         }
-        if(hero.x <= 64) {
-            hero.x = 64;
+        if(hero.x <= 30) {
+            hero.x = 30;
         }
-        else if(hero.x >= gameWidth - 90) {
-            hero.x = gameWidth - 90;
+        else if(hero.x >= gameWidth - 50) {
+            hero.x = gameWidth - 50;
         }
     };
+
+
+    //Play Audio
+    function playAudio() {
+        mainAudio.load(); 
+        mainAudio.volume = 0.2; 
+        deathAudio.load(); 
+        deathAudio.volume = 0.2;
+        gameoverAudio.load(); 
+        gameoverAudio.volume = 0.2;
+        winAudio.load(); 
+        winAudio.volume = 0.2;
+        clickAudio.load(); 
+        clickAudio.volume = 0.2;
+        //Turn on for Sound
+        // mainAudio.play(); 
+        mainAudio.loop = true;
+        mainAudio.volume = 0.2;
+      };
+
+      // Mute and Unmute
+      function toggleMute() {
+        var volumeIcon = document.querySelector('.volume [data-fa-i2svg]')
+
+        if (mainAudio.muted == false) {
+            // Mute the video
+            mainAudio.muted = true;
+
+            // Update the button text
+            volumeIcon.classList.toggle('fa-volume-off');
+        } else {
+            // Unmute the video
+            mainAudio.muted = false;
+
+            // Update the button text
+            volumeIcon.classList.toggle('fa-volume-up');
+        }
+    };
+
 
     //Draw the map
     function drawMap() {
@@ -343,15 +426,15 @@
 
         //Draw Canvas
         drawMap();
-        document.querySelector('#level').textContent = "Level: " + level;
-        document.querySelector('#lifes').textContent = "Life: " + life;
+        document.querySelector('#level').textContent = + level;
+        document.querySelector('#lifes').textContent = + life;
 
         //Draw Hero
         ctx.drawImage(heroImage, hero.srcX, hero.srcY, hero.width, hero.height, hero.x, hero.y, hero.width, hero.height);
 
         //Draw Bugs
         bugs.forEach(function(bug, index){
-             ctx.drawImage(bugImage, bug.srcX, bug.srcY, bug.w, bug.h, bug.x, bug.y, bug.w, bug.h);
+             ctx.drawImage(bugImage, bug.srcX, bug.srcY, bug.width, bug.height, bug.x, bug.y, bug.width, bug.height);
         });
 
         //Draw Ship
@@ -368,6 +451,7 @@
         }
     };
 
+
     //Define Collision Area
     var checkCollision = function(area1, area2) {
         var colWidth = Math.abs(area1.x - area2.x) <= Math.max(area1.w, area2.w);
@@ -382,5 +466,11 @@
     startButton.addEventListener('mouseup', hidestartScreen);
     howToButton.addEventListener('click', showInfoScreen);
     backButton.addEventListener('click', showsStartScreen);
+    window.addEventListener('load', playAudio)
+    volume.addEventListener('click', toggleMute);
+    nextButton.addEventListener('click', hideNextScreen);
+    restartButton.addEventListener('click', hideOverScreen, startGame);
+
+
 
 })();

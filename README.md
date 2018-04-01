@@ -6,7 +6,7 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 
 ## HOW TO PLAY
 - Move the player using the arrow keys until he reaches the ship to scape Planet P.
-- You have 5 lives and you loose one each time you touches a bug.
+- You have 5 lives and you lose one each time you touches a bug.
 - Each level increases the Bug speed and the hero speed.
 - At game over you start at level one again.
 - Up to what level can you reach?
@@ -22,8 +22,6 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 ## TODO
   - Design Final Graphics
   - Correct Sprite Movement of Bugs
-  - Create Start, Next Level and Game Over screens
-  - Define and Include Sound Effects
 
 ## REFERENCE MATERIAL
 - Google Docs - Game Outline: https://docs.google.com/document/d/1rVt0Ha27pt-djT9bWT4tZZd377Im8h0IIJjnfU_QLz4/edit?usp=sharing
