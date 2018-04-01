@@ -5,32 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="css/reset.css" rel="stylesheet" type="text/css" media="screen">
   <link href="css/main.css" rel="stylesheet" type="text/css" media="screen">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <title>Starship Troopers Game</Title>
 </head>
 <body>
-  <main id="mainContainer" class="clearfix">
-    <section>
-      <h2>Awesome JS Starship Troopers Game</h2>
-    </section>
-    <section class="infoGame clearfix">
-      <div id="level"></div>
-      <div id="lifes"></div>
-    </section>
-    <div class="container clearfix">
-      <section class="startScreen clearfix">
-        <button class="startGame">Press to Start</button>
-        <button class="howTo">How to Play</button>
-      </section>
-      <section class="infoScreen clearfix">
-        <button class="backButton">Back</button>
-      </section>
-      <canvas id="Canvas" width="768" height="512">
-        <div class="unsupported"><p>Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element</p></div>
-      </canvas>
-    </div>
-  </main>
+    <div class="wrapper">
+        <div class="one">
+            <div id="scoreboard">
+                <img id="logo" src="images/logo.png">
+                <div class="infoGame">
+                  <div class="level">
+                    <h3>Level</h3>
+                    <div id="level">--</div>
+                  </div>
+                  <div class="health">
+                    <h3>Health</h3>
+                    <div id="lifes">--</div>
+                  </div>
+                </div>
+                <div class="music">
+                <h3>Music</h3>
+                <div id="sound" class="volume"><i class="fas fa-volume-up"></i></div>
+              </div>
+            </div>
+        </div>
+        <div class="two">
+            <main id="mainContainer" class="clearfix">
+                
+                <div class="container clearfix">
+                  <section class="startScreen clearfix">
+                    <button class="startGame">Press to Start</button>
+                    <button class="howTo">How to Play</button>
+                  </section>
+                  <section class="infoScreen clearfix">
+                    <button class="backButton">Back</button>
+                  </section>
+                  <section class="gameoverScreen clearfix">
+                    <button class="restart">Start Over</button>
+                  </section>
+                  <section class="nextlevelScreen clearfix">
+                      <button class="nextLevel">Next Level</button>
+                    </section>
+                  <canvas id="Canvas" width="768" height="512">
+                    <div class="unsupported"><p>Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element</p></div>
+                  </canvas>
+                </div>
+              </main>
+        </div>
+      </div>
+
+
 
   <script src="js/main.js"></script>
 </body>
