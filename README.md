@@ -2,7 +2,7 @@
 Single Player 2D Canvas games based on the Starship Troopers Movie.
 Built with HTML5, CSS, JavaScript and extra side of awesome.
 
-<img src="images/logo.png"/>
+<img src="images/Logo.png"/>
 
 
 ## HOW TO PLAY
