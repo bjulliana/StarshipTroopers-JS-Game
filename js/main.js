@@ -39,11 +39,11 @@
     var howToButton = document.querySelector('.howTo')
     var infoScreen = document.querySelector('.infoScreen');
     var backButton = document.querySelector('.backButton');
-    var mainAudio = new Audio('audio/main_soundtrack.mp3');
-    var deathAudio = new Audio('audio/death.wav');
-    var gameoverAudio = new Audio('audio/gameover.wav');
-    var winAudio = new Audio('audio/success.wav');
-    var clickAudio = new Audio('audio/select.wav');
+    var mainAudio = document.querySelector('.soundtrack');
+    var deathAudio = document.querySelector('.death');
+    var gameoverAudio = document.querySelector('.gameover');
+    var winAudio = document.querySelector('.success');
+    var clickAudio = document.querySelector('.select');
     var volume = document.querySelector('.volume');
     var overScreen = document.querySelector('.gameoverScreen');
     var nextScreen = document.querySelector('.nextlevelScreen');
@@ -363,18 +363,12 @@
 
     //Play Audio
     function playAudio() {
-        mainAudio.load(); 
         mainAudio.volume = 0.2; 
-        deathAudio.load(); 
         deathAudio.volume = 0.2;
-        gameoverAudio.load(); 
         gameoverAudio.volume = 0.2;
-        winAudio.load(); 
         winAudio.volume = 0.2;
-        clickAudio.load(); 
         clickAudio.volume = 0.2;
-        //Turn on for Sound
-        // mainAudio.play(); 
+        mainAudio.play(); 
         mainAudio.loop = true;
         mainAudio.volume = 0.2;
       };
