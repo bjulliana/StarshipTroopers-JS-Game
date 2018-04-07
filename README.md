@@ -1,7 +1,8 @@
 # Starship Troopers Game
 Single Player 2D Canvas games based on the Starship Troopers Movie.
-
 Built with HTML5, CSS, JavaScript and extra side of awesome.
+
+<img src="images/logo.png"/>
 
 
 ## HOW TO PLAY
@@ -17,11 +18,8 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 - IE 9+
 
 ## KNOWN ISSUES
- - No support for touch/mobile devices
-
-## TODO
-  - Design Final Graphics
-  - Correct Sprite Movement of Bugs
+- No support for touch/mobile devices
+- No Sprite Movement of Bugs
 
 ## REFERENCE MATERIAL
 - Google Docs - Game Outline: https://docs.google.com/document/d/1rVt0Ha27pt-djT9bWT4tZZd377Im8h0IIJjnfU_QLz4/edit?usp=sharing
