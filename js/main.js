@@ -12,12 +12,12 @@
         tsize: 64,
         tiles: [
          8, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
-         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
+         3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 4,
+         3, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 4,
+         3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 4,
+         3, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 4,
          3, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 4,
-         3, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 4,
+         3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 4,
          7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 10
         ],
         getTile: function (col, row) {
@@ -30,29 +30,34 @@
     var downKey = false;
     var spacePressed = false;
     var isMoving = false;
-    var spriteWidth = 102;
+    var spriteWidth = 108;
     var bugStartUp = 0;
-    var bugStartDown = 48;
-    var bugSpriteWidth = 150;
+    var bugStartDown = 94;
+    var bugSpriteWidth = 267;
     var startButton = document.querySelector('.startGame');
     var startScreen = document.querySelector('.startScreen');
     var howToButton = document.querySelector('.howTo')
     var infoScreen = document.querySelector('.infoScreen');
     var backButton = document.querySelector('.backButton');
-    var mainAudio = new Audio('audio/main_soundtrack.mp3');
-    var deathAudio = new Audio('audio/death.wav');
-    var gameoverAudio = new Audio('audio/gameover.wav');
-    var winAudio = new Audio('audio/success.wav');
-    var clickAudio = new Audio('audio/select.wav');
+    var mainAudio = document.querySelector('.soundtrack');
+    var deathAudio = document.querySelector('.death');
+    var gameoverAudio = document.querySelector('.gameover');
+    var winAudio = document.querySelector('.success');
+    var clickAudio = document.querySelector('.select');
     var volume = document.querySelector('.volume');
     var overScreen = document.querySelector('.gameoverScreen');
     var nextScreen = document.querySelector('.nextlevelScreen');
     var nextButton = document.querySelector('.nextLevel');
     var restartButton = document.querySelector('.restart');
+    var fps = 30;
+    var now;
+    var then = Date.now();
+    var interval = 1000/fps;
+    var delta;
 
     //Map image
     var tileSheet = new Image();
-    tileSheet.src = 'images/newtileset.png';
+    tileSheet.src = 'images/newtileset3.png';
 
     //Bugs
     var bugs = [
@@ -60,8 +65,8 @@
             x: 200, //x coordinate
             y: 100, //y coordinate
             speedY: 2, //speed in Y
-            width: 50, //width
-            height: 48, //height
+            width: 89, //width
+            height: 94, //height
             w: 30, //Collision width
             h: 35, //Collision height
             srcX: 0, //Initial Sprite x Source
@@ -71,8 +76,8 @@
             x: 300,
             y: 0,
             speedY: 2,
-            width: 50,
-            height: 48,
+            width: 89,
+            height: 94,
             w: 30,
             h: 35,
             srcX: 0,
@@ -82,8 +87,8 @@
             x: 430,
             y: 100,
             speedY: 3,
-            width: 50,
-            height: 48,
+            width: 89,
+            height: 94,
             w: 30,
             h: 35,
             srcX: 0,
@@ -93,12 +98,12 @@
             x: 550,
             y: 200,
             speedY: -3,
-            width: 50,
-            height: 48,
+            width: 89,
+            height: 94,
             w: 30,
             h: 35,
             srcX: 0,
-            srcY: 48
+            srcY: 94
         }
     ];
 
@@ -113,14 +118,14 @@
         speed: 12,
         w: 30,
         h: 50,
-        width: 34,
+        width: 36,
         height: 50,
-        srcX: 34,
-        srcY: 51,
+        srcX: 36,
+        srcY: 50,
         up: 0,
-        right: 51,
-        down: 102,
-        left: 153
+        right: 50,
+        down: 100,
+        left: 150
     };
 
     //Hero Image
@@ -129,10 +134,10 @@
 
     //Ship
     var ship = {
-        x: 630,
-        y: 250,
-        w: 30,
-        h: 30
+        x: 675,
+        y: 240,
+        w: 65,
+        h: 64
     }
 
     //Ship Image
@@ -244,7 +249,7 @@
             hero.speed += 3;
             hero.x = 70;
             hero.y = 250;
-            hero.srcX = 34;
+            hero.srcX = 36;
             hero.srcY = 50;
 
             // Increases Bug Speed at each level
@@ -318,7 +323,7 @@
                 //Define Position of Hero at Game Over
                 hero.x = 70;
                 hero.y = 250;
-                hero.srcX = 34;
+                hero.srcX = 36;
                 hero.srcY = 50;
             }
 
@@ -334,10 +339,10 @@
             else if(bug.y >= gameHeight - 70) {
                 bug.y = gameHeight - 70;
                 bug.speedY *= -1;
-                bug.srcY = 48;
+                bug.srcY = 94;
             }
             //Bug Sprite Movement
-            bug.srcX = bug.width
+            bug.srcX = bug.width;
 
             //If Reaches Final of Sprite, Return to 0
             if (bug.srcX >= bugSpriteWidth) {
@@ -363,18 +368,11 @@
 
     //Play Audio
     function playAudio() {
-        mainAudio.load(); 
         mainAudio.volume = 0.2; 
-        deathAudio.load(); 
         deathAudio.volume = 0.2;
-        gameoverAudio.load(); 
         gameoverAudio.volume = 0.2;
-        winAudio.load(); 
         winAudio.volume = 0.2;
-        clickAudio.load(); 
         clickAudio.volume = 0.2;
-        //Turn on for Sound
-        // mainAudio.play(); 
         mainAudio.loop = true;
         mainAudio.volume = 0.2;
       };
@@ -434,7 +432,7 @@
 
         //Draw Bugs
         bugs.forEach(function(bug, index){
-             ctx.drawImage(bugImage, bug.srcX, bug.srcY, bug.width, bug.height, bug.x, bug.y, bug.width, bug.height);
+                ctx.drawImage(bugImage, bug.srcX, bug.srcY, bug.width, bug.height, bug.x, bug.y, 50, 53);
         });
 
         //Draw Ship
@@ -447,6 +445,11 @@
         draw();
         if(gameLive) {
             window.requestAnimationFrame(init);
+            now = Date.now();
+            delta = now - then;
+            if (delta > interval) {                
+                then = now - (delta % interval);
+            }
         isMoving = false;
         }
     };
