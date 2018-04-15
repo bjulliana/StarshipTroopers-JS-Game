@@ -49,9 +49,9 @@ h2 {
   clear: both; }
 
 canvas {
-  border-color: #2c2c2c;
+  /* border-color: #2c2c2c;
   border-style: solid;
-  border-width: 1px;
+  border-width: 1px; */
   z-index: -1;
   display: block;
 }

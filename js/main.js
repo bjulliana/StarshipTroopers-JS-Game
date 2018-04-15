@@ -49,11 +49,11 @@
     var nextScreen = document.querySelector('.nextlevelScreen');
     var nextButton = document.querySelector('.nextLevel');
     var restartButton = document.querySelector('.restart');
-    var fps = 30;
-    var now;
-    var then = Date.now();
-    var interval = 1000/fps;
-    var delta;
+    // var fps = 30;
+    // var now;
+    // var then = Date.now();
+    // var interval = 1000/fps;
+    // var delta;
 
     //Map image
     var tileSheet = new Image();
@@ -67,8 +67,8 @@
             speedY: 2, //speed in Y
             width: 89, //width
             height: 94, //height
-            w: 30, //Collision width
-            h: 35, //Collision height
+            w: 50, //Collision width
+            h: 53, //Collision height
             srcX: 0, //Initial Sprite x Source
             srcY: 0 //Initial Sprite y Source
         },
@@ -78,8 +78,8 @@
             speedY: 2,
             width: 89,
             height: 94,
-            w: 30,
-            h: 35,
+            w: 50,
+            h: 53,
             srcX: 0,
             srcY: 0
         },
@@ -89,8 +89,8 @@
             speedY: 3,
             width: 89,
             height: 94,
-            w: 30,
-            h: 35,
+            w: 50,
+            h: 53,
             srcX: 0,
             srcY: 0
         },
@@ -100,8 +100,8 @@
             speedY: -3,
             width: 89,
             height: 94,
-            w: 30,
-            h: 35,
+            w: 50,
+            h: 53,
             srcX: 0,
             srcY: 94
         }
@@ -114,18 +114,18 @@
     //Hero
     var hero = {
         x: 70,
-        y: 250,
+        y: 230,
         speed: 12,
         w: 30,
-        h: 50,
+        h: 54,
         width: 36,
-        height: 50,
+        height: 54,
         srcX: 36,
-        srcY: 50,
+        srcY: 54,
         up: 0,
-        right: 50,
-        down: 100,
-        left: 150
+        right: 54,
+        down: 108,
+        left: 162
     };
 
     //Hero Image
@@ -135,9 +135,9 @@
     //Ship
     var ship = {
         x: 675,
-        y: 240,
-        w: 65,
-        h: 64
+        y: 180,
+        w: 60,
+        h: 148
     }
 
     //Ship Image
@@ -242,15 +242,19 @@
     //Updated the Game
     var update = function() {
         //Level Won - Define Game Parameters at new level
-        if(checkCollision(hero, ship)) {
+        //Check Collision with Ship
+        if (hero.x < ship.x + ship.w &&
+            hero.x + hero.w > ship.x &&
+            hero.y < ship.y + ship.h &&
+            hero.h + hero.y > ship.y) {
             winAudio.play();
             showNextScreen();
             level += 1;
             hero.speed += 3;
             hero.x = 70;
-            hero.y = 250;
+            hero.y = 230;
             hero.srcX = 36;
-            hero.srcY = 50;
+            hero.srcY = 54;
 
             // Increases Bug Speed at each level
             for(var ab = 0; ab<bugs.length; ab++){
@@ -296,8 +300,11 @@
 
         // Bugs Functions (Move, Collision)
         bugs.forEach(function(bug, index) {
-          //Lose Live at Collision with Bug
-            if(checkCollision(hero, bug)) {
+          //Check Collision with Bug
+          if (hero.x < bug.x + bug.w &&
+            hero.x + hero.w > bug.x &&
+            hero.y < bug.y + bug.h &&
+            hero.h + hero.y > bug.y) {
                 //Stop the Game and Reduce Life
                 if(life === 0) {
                     gameoverAudio.play(); 
@@ -322,9 +329,9 @@
                 }
                 //Define Position of Hero at Game Over
                 hero.x = 70;
-                hero.y = 250;
+                hero.y = 230;
                 hero.srcX = 36;
-                hero.srcY = 50;
+                hero.srcY = 54;
             }
 
             //Move the Bugs
@@ -341,8 +348,9 @@
                 bug.speedY *= -1;
                 bug.srcY = 94;
             }
-            //Bug Sprite Movement
-            bug.srcX = bug.width;
+
+            // Bug Sprite Movement
+            bug.srcX += bug.width;
 
             //If Reaches Final of Sprite, Return to 0
             if (bug.srcX >= bugSpriteWidth) {
@@ -363,6 +371,7 @@
         else if(hero.x >= gameWidth - 50) {
             hero.x = gameWidth - 50;
         }
+        
     };
 
 
@@ -436,7 +445,7 @@
         });
 
         //Draw Ship
-        ctx.drawImage(shipImage, ship.x, ship.y);
+        ctx.drawImage(shipImage, 0, 0, ship.w, ship.h, ship.x, ship.y, ship.w, ship.h);
     };
 
     //Game Loop
@@ -445,22 +454,14 @@
         draw();
         if(gameLive) {
             window.requestAnimationFrame(init);
-            now = Date.now();
-            delta = now - then;
-            if (delta > interval) {                
-                then = now - (delta % interval);
-            }
+            // now = Date.now();
+            // delta = now - then;
+            // if (delta > interval) {                
+            //     then = now - (delta % interval);
+            // }
         isMoving = false;
         }
     };
-
-
-    //Define Collision Area
-    var checkCollision = function(area1, area2) {
-        var colWidth = Math.abs(area1.x - area2.x) <= Math.max(area1.w, area2.w);
-        var colHeight = Math.abs(area1.y - area2.y) <= Math.max(area1.h, area2.h);
-        return colWidth && colHeight;
-    }
 
     //Event Listeners
     document.addEventListener('keydown', keyDownHandler);
