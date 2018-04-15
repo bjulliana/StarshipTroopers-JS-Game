@@ -5,6 +5,9 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 <img src="images/Logo.png"/>
 </p>
 
+## Demo
+https://bjulliana.github.io/Bauer_Julliana_HW3/
+
 ## HOW TO PLAY
 - Move the player using the arrow keys until he reaches the ship to scape Planet P.
 - You have 5 lives and you lose one each time you touches a bug.
