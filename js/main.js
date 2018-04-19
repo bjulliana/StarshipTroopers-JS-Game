@@ -49,11 +49,7 @@
     var nextScreen = document.querySelector('.nextlevelScreen');
     var nextButton = document.querySelector('.nextLevel');
     var restartButton = document.querySelector('.restart');
-    // var fps = 30;
-    // var now;
-    // var then = Date.now();
-    // var interval = 1000/fps;
-    // var delta;
+    var frameCount = 0;
 
     //Map image
     var tileSheet = new Image();
@@ -348,9 +344,15 @@
                 bug.speedY *= -1;
                 bug.srcY = 94;
             }
-
-            // Bug Sprite Movement
-            bug.srcX += bug.width;
+            if (level <= 5) {
+                if (frameCount % 5 == 0) {
+                    bug.srcX += bug.width;
+                };
+            } else {
+                if (frameCount % 3 == 0) {
+                    bug.srcX += bug.width;
+                };
+            }
 
             //If Reaches Final of Sprite, Return to 0
             if (bug.srcX >= bugSpriteWidth) {
@@ -454,13 +456,9 @@
         draw();
         if(gameLive) {
             window.requestAnimationFrame(init);
-            // now = Date.now();
-            // delta = now - then;
-            // if (delta > interval) {                
-            //     then = now - (delta % interval);
-            // }
         isMoving = false;
         }
+        frameCount += 1;
     };
 
     //Event Listeners
