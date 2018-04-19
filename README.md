@@ -19,7 +19,6 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 
 ## KNOWN ISSUES
 - No support for touch/mobile devices
-- No Sprite Movement of Bugs
 
 ## REFERENCE MATERIAL
 - Google Docs - Game Outline: https://docs.google.com/document/d/1rVt0Ha27pt-djT9bWT4tZZd377Im8h0IIJjnfU_QLz4/edit?usp=sharing
@@ -33,7 +32,7 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 - HTML5 Game Course: https://devdojo.com/course/html5-platform-game/introduction
 - HTML5 Game Example: https://www.creativebloq.com/html5/build-tile-based-html5-game-31410992
 - Javascript Game Book:https://books.google.ca/books?id=E_amBAAAQBAJ&lpg=PR23&pg=PR31#v=onepage&q&f=false
-
+- Book Advanced Game Design with HTML5 and JavaScript - Authors: van der Spuy, Rex
 
 ### Created By
 - Julliana Bauer
