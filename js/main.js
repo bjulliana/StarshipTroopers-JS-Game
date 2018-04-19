@@ -344,14 +344,10 @@
                 bug.speedY *= -1;
                 bug.srcY = 94;
             }
-            if (level <= 5) {
-                if (frameCount % 5 == 0) {
-                    bug.srcX += bug.width;
-                };
-            } else {
-                if (frameCount % 3 == 0) {
-                    bug.srcX += bug.width;
-                };
+            if (level <= 5 && (frameCount % 5 == 0)) {
+                bug.srcX += bug.width;
+            } else if (level > 5 && (frameCount % 3 == 0)) {
+                bug.srcX += bug.width;
             }
 
             //If Reaches Final of Sprite, Return to 0
