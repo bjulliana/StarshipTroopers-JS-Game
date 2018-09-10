@@ -6,7 +6,7 @@ Built with HTML5, CSS, JavaScript and extra side of awesome.
 </p>
 
 ## Demo
-https://bjulliana.github.io/Bauer_Julliana_HW3/
+https://bjulliana.github.io/StarshipTroopers-JS-Game/
 
 ## HOW TO PLAY
 - Move the player using the arrow keys until he reaches the ship to scape Planet P.
